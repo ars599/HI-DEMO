@@ -8,9 +8,10 @@ Setup git repository:
     git add README.md
     git commit -m "first commit"
     git branch -M main
-    git remote add origin https://github.com/ars599/ACCESS-AMOS22.git
+    git remote add origin https://github.com/ars599/HI-DEMO
     git push -u origin main
 
+Copy from Aiden (https://github.com/coecms/esm-lig)
 Get payu:
 
     module use /g/data/hh5/public/modules
@@ -20,7 +21,7 @@ Create a directory in which to keep the model configurations:
 
     mkdir -p ~/access-esm
     cd ~/access-esm
-    git clone https://github.com/ars599/ACCESS-AMOS22.git HI-Demo
+    git clone https://github.com/ars599/HI-DEMO HI-Demo
     cd HI-Demo
 
 Create a branch to collect all the run configurations in
@@ -148,7 +149,7 @@ Open the `config.yaml` file with your preferred text editor.
 
 Let's have a closer look at the parts:
 
-    jobname: esm-lig
+    jobname: HI-Demo
     queue: normal
     walltime: 20:00:00
 
