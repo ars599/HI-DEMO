@@ -1,0 +1,75 @@
+laboratory path:  /scratch/p66/ars599/access-esm
+binary path:  /scratch/p66/ars599/access-esm/bin
+input path:  /scratch/p66/ars599/access-esm/input
+work path:  /scratch/p66/ars599/access-esm/work
+archive path:  /scratch/p66/ars599/access-esm/archive
+nruns: 1 nruns_per_submit: 1 subrun: 1
+Loading input manifest: manifests/input.yaml
+Loading restart manifest: manifests/restart.yaml
+Loading exe manifest: manifests/exe.yaml
+Setting up atmosphere
+Setting up ocean
+Setting up ice
+Setting up coupler
+Checking exe and input manifests
+Updating full hashes for 3 files in manifests/exe.yaml
+Creating restart manifest
+Updating full hashes for 30 files in manifests/restart.yaml
+62944331.gadi-pbs
+Loading input manifest: manifests/input.yaml
+Loading restart manifest: manifests/restart.yaml
+Loading exe manifest: manifests/exe.yaml
+payu: Found modules in /opt/Modules/v4.3.0
+qsub -q copyq -P p66 -l ncpus=1 -l mem=4GB -N esm-lig_c -l wd -j n -v PYTHONPATH=:/home/599/ars599/pythonlibs/PyEMD/:/home/599/ars599/pythonlibs/PyEMD/,PAYU_PATH=/g/data/hh5/public/apps/miniconda3/envs/analysis3-22.07/bin,PAYU_CURRENT_RUN=0,MODULESHOME=/opt/Modules/v4.3.0,MODULES_CMD=/opt/Modules/v4.3.0/libexec/modulecmd.tcl,MODULEPATH=/g/data3/hh5/public/modules:/etc/scl/modulefiles:/opt/Modules/modulefiles:/opt/Modules/v4.3.0/modulefiles:/apps/Modules/modulefiles -W umask=027 -l storage=gdata/access+gdata/hh5+scratch/p66 -- /g/data/hh5/public/apps/miniconda3/envs/analysis3-22.07/bin/python3.9 /g/data/hh5/public/apps/miniconda3/envs/analysis3-22.07/bin/payu-collate
+Writing manifests/restart.yaml
+Writing manifests/exe.yaml
+payu: Found modules in /opt/Modules/v4.3.0
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/config.yaml
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/CNTLALL
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/prefix.CNTLATM
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/prefix.CNTLGEN
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/CONTCNTL
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/errflag
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/exstat
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/ftxx
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/ftxx.new
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/ftxx.vars
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/hnlist
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/ihist
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/INITHIS
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/namelists
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/PPCNTL
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/prefix.PRESM_A
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/SIZES
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/STASHC
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/UAFILES_A
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/UAFLDS_A
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/parexe
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/cable.nml
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/um_env.py
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/atmosphere/input_atm.nml
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/ocean/data_table
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/ocean/diag_table
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/ocean/field_table
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/ocean/input.nml
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/ice/cice_in.nml
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/ice/input_ice.nml
+git add /scratch/p66/ars599/access-esm/exp/HI-Raw/coupler/namcouple
+git add manifests/input.yaml
+git add manifests/restart.yaml
+git add manifests/exe.yaml
+git commit -am "2022-11-07 16:03:15: Run 0"
+mpirun  -wdir /scratch/p66/ars599/access-esm/work/HI-Raw/atmosphere -np 192  /scratch/p66/ars599/access-esm/work/HI-Raw/atmosphere/um_hg3_20200706_pmip-li_r344.exe : -wdir /scratch/p66/ars599/access-esm/work/HI-Raw/ocean -np 180  /scratch/p66/ars599/access-esm/work/HI-Raw/ocean/mom5xx : -wdir /scratch/p66/ars599/access-esm/work/HI-Raw/ice -np 12  /scratch/p66/ars599/access-esm/work/HI-Raw/ice/cicexx
+
+======================================================================================
+                  Resource Usage on 2022-11-07 16:09:38:
+   Job Id:             62944215.gadi-pbs
+   Project:            p66
+   Exit Status:        0
+   Service Units:      84.27
+   NCPUs Requested:    384                    NCPUs Used: 384             
+                                           CPU Time Used: 38:41:59        
+   Memory Requested:   1.5TB                 Memory Used: 145.99GB        
+   Walltime requested: 03:10:00            Walltime Used: 00:06:35        
+   JobFS requested:    800.0MB                JobFS used: 8.16MB          
+======================================================================================
