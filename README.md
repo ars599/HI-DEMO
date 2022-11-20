@@ -3,6 +3,7 @@
 ## Quickstart Guide
 
 Setup git repository:
+```
     echo "# ACCESS-AMOS22" >> README.md
     git init
     git add README.md
@@ -10,21 +11,23 @@ Setup git repository:
     git branch -M main
     git remote add origin https://github.com/ars599/HI-DEMO
     git push -u origin main
+```
 
 The code is Copied from Aiden (https://github.com/coecms/esm-lig) and modified for demostration.
 
 Get payu:
-
-module use /g/data/hh5/public/modules
+```
+	module use /g/data/hh5/public/modules
     module load git conda/analysis3-unstable
+```
 
 Create a directory in which to keep the model configurations:
-
-    mkdir -p ~/access-esm
+```
+mkdir -p ~/access-esm
     cd ~/access-esm
     git clone https://github.com/ars599/HI-DEMO HI-Demo
     cd HI-Demo
-
+```
 The DEMO version will only output a few variables
 In atmosphere/STASHC
 ```
