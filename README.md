@@ -24,6 +24,41 @@ Create a directory in which to keep the model configurations:
     git clone https://github.com/ars599/HI-DEMO HI-Demo
     cd HI-Demo
 
+The DEMO version will only output a few variables
+In atmosphere/STASHC
+```
+ ## Start of user STASH requests for ATMOS ###
+ &STASHNUM NUM_REQ= 13, NUM_DOM=37, NUM_TIM=20, NUM_USE=12 /
+```
+
+In ocean/diag_table
+```
+"ACCESS-ESM_CMIP6"
+0001 01 01 0 0 0
+## output files
+#"ocean_daily",                24,  "hours",  1, "days", "time",
+"ocean_month",                 1,  "months", 1, "days", "time",
+"ocean_scalar",                1,  "months", 1, "days", "time"
+"ocean_bgc", 1,  "months", 1, "days", "time",
+"ocean_bgc_mth", 1,  "months", 1, "days", "time",
+"ocean_bgc_ann", 12,  "months", 1, "days", "time",
+"ocean"      ,                12,  "months", 1, "days", "time",
+```
+
+In ice/cice_in.nml
+```
+&setup_nml
+    days_per_year  = 365
+  , year_init      = 0001
+  , istep0         = 0
+  , dt             = 3600
+  , npt            = 24
+  , ndyn_dt        = 1
+  , runtype        = 'initial'
+  , ice_ic         = 'default'
+  , restart        = .false.
+```
+
 Create a branch to collect all the run configurations in
 
     git checkout -b runs
@@ -38,6 +73,22 @@ Check the output:
     ls archive/
 
 The default configuration is a 1 year per model run. To run the model for, say, 25 years:
+But need to change the run length from one month to one year (the demo version)
+No need to chanage anything for full version.
+
+```
+calendar:
+    start:
+        year: 101
+        month: 1
+        days: 1
+
+    runtime:
+        years: 0
+        months: 1
+        days: 0
+
+```
 
     payu run -n 25
 
