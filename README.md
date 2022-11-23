@@ -1,74 +1,31 @@
-# ACCESS-ESM Demo version with **payu**
+# ACCESS-ESM with **payu**
 
 ## Quickstart Guide
 
-Setup git repository:
-```
-    echo "# ACCESS-AMOS22" >> README.md
-    git init
-    git add README.md
-    git commit -m "first commit"
-    git branch -M main
-    git remote add origin https://github.com/ars599/HI-DEMO
-    git push -u origin main
-```
-
-The code is Copied from Aiden (https://github.com/coecms/esm-lig) and modified for demostration.
-
 Get payu:
-```
-	module use /g/data/hh5/public/modules
-    module load git conda/analysis3-unstable
-```
+
+    module use /g/data3/hh5/public/modules
+    module load conda/analysis3-unstable
+	
+Make sure you are on the right project:
+	nci_acount
+	switchproj nf33
+
+Remeber to swap back after the workshop!!!
 
 Create a directory in which to keep the model configurations:
-```
-mkdir -p ~/access-esm
+
+    mkdir -p ~/access-esm
     cd ~/access-esm
-    git clone https://github.com/ars599/HI-DEMO HI-Demo
-    cd HI-Demo
-```
-The DEMO version will only output a few variables
-In atmosphere/STASHC
-```
- ## Start of user STASH requests for ATMOS ###
- &STASHNUM NUM_REQ= 13, NUM_DOM=37, NUM_TIM=20, NUM_USE=12 /
-```
+    ## git clone https://github.com/coecms/esm-historical
+	git clone https://github.com/ars599/HI-DEMO
+    cd esm-historical
 
-In ocean/diag_table
-```
-"ACCESS-ESM_CMIP6"
-0001 01 01 0 0 0
-## output files
-#"ocean_daily",                24,  "hours",  1, "days", "time",
-"ocean_month",                 1,  "months", 1, "days", "time",
-"ocean_scalar",                1,  "months", 1, "days", "time"
-"ocean_bgc", 1,  "months", 1, "days", "time",
-"ocean_bgc_mth", 1,  "months", 1, "days", "time",
-"ocean_bgc_ann", 12,  "months", 1, "days", "time",
-"ocean"      ,                12,  "months", 1, "days", "time",
-```
+Set up a warm start from a CSIRO run (see the script for details):
 
-In ice/cice_in.nml
-```
-&setup_nml
-    days_per_year  = 365
-  , year_init      = 0001
-  , istep0         = 0
-  , dt             = 3600
-  , npt            = 24
-  , ndyn_dt        = 1
-  , runtype        = 'initial'
-  , ice_ic         = 'default'
-  , restart        = .false.
-```
-
-Create a branch to collect all the run configurations in
-
-    git checkout -b runs
+    ./warm-start.sh
 
 Run the model:
-The demo version will only run one month
 
     payu run
 
@@ -77,28 +34,33 @@ Check the output:
     ls archive/
 
 The default configuration is a 1 year per model run. To run the model for, say, 25 years:
-But need to change the run length from one month to one year (the demo version)
-No need to chanage anything for full version.
-
-```
-calendar:
-    start:
-        year: 101
-        month: 1
-        days: 1
-
-    runtime:
-        years: 0
-        months: 1
-        days: 0
-
-```
 
     payu run -n 25
+
+With default settings, 1 model year cost is ~ 1100 SU, with a walltime of 1 hour 20 minutes
 
 **Note:**
 We have noticed that some modules interfere with the git commands, for example `matlab/R2018a`.
 If you are running into issues during the installation, it might be a good idea to `module purge` first before starting again.
+
+## Warm Starts
+
+The model is normally 'warm started' from the restart files of another
+configuration. For instance the SSP experiments are started from the end of the
+historical experiment, and in turn the historical experiment is started from
+the pre-industrial control experiment (different ensemble members are created
+by starting from different piControl years). Starting the experiment from
+scratch requires a long period of spinup to ensure stability and should be
+avoided if possible.
+
+There are two options for restarting the model. It can be started from an
+experiment run by CSIRO (requires membership in the p66 group), or it can be
+started from another Payu experiment.
+
+To perform a warm start, edit the file `warm-start.sh` to set the experiment
+directory to start from and then run the script. For CSIRO jobs you must also
+specify the date of the run to start from, for Payu jobs each restart directory
+holds a different year.
 
 ## Understanding **payu**
 
@@ -157,17 +119,17 @@ The ESM 1.5 subversion of ACCESS specifically contains these models:
 | Land       | CABLE      | 2.2.4   |
 | Coupler    | OASIS-MCT  | 3.5     |
 
-Pre-compiled executables for these models are available on raijin at
-`/short/public/access-esm/payu/bin/csiro/`.
+~~Pre-compiled executables for these models are available on raijin at
+`/short/public/access-esm/payu/bin/csiro/`.~~
 
 ## Setting up ACCESS-ESM with **payu**
 
 ### The pre-conditions
 
-On `raijin`, first make sure that you have access to our modules.
+On `gadi`, first make sure that you have access to our modules.
 This can most easily been done by adding the line
 
-    module use /g/data/hh5/public/modules
+    module use /g/data3/hh5/public/modules
 
 to your `~/.profile`, then logging back in. Then all you have to do is
 
@@ -175,9 +137,6 @@ to your `~/.profile`, then logging back in. Then all you have to do is
 
 to load the **payu** module.
 Please check again after 7/2019 to see whether it has been made part of the stable conda module.
-We also recommend you load a more recent version of `git` with
-
-    module load git
 
 as **payu** will use git to keep track of all configuration changes automatically.
 
@@ -190,13 +149,10 @@ Create a directory in your home directory to keep all the Control Directories yo
 
 Then clone the most recent version of the ACCESS-ESM control directory:
 
-    git clone https://github.com/coecms/esm-lig
-    cd esm-lig
+    git clone https://github.com/coecms/esm-historical
+    cd esm-historical
 
-When running the model, payu will use the git repository to archive the different configuations.
-It's a good idea to not have this happen in the master branch, so we can create and check out a branch specifically for the runs:
-
-    git checkout -b runs
+(Note: Currently we only have the historical model set up, other versions will follow later.)
 
 ### Setting up the Master Configuration file.
 
@@ -204,7 +160,7 @@ Open the `config.yaml` file with your preferred text editor.
 
 Let's have a closer look at the parts:
 
-    jobname: HI-Demo
+    jobname: historical
     queue: normal
     walltime: 20:00:00
 
@@ -226,31 +182,30 @@ The main model. This mainly tells **payu** which driver to use. **payu** knows t
         - name: atmosphere
           model: um
           ncpus: 192
-          exe: /g/data/access/payu/access-esm-pmip/pmip-li/bin/um_hg3_20200706_pmip-li_r344.exe
+          exe: /short/public/access-esm/payu/bin/csiro/um_hg3.exe-20190129_15
           input:
-            - /g/data/access/payu/access-esm/input/pre-industrial/atmosphere
-            - /g/data/access/payu/access-esm/input/pre-industrial/start_dump
-    
+            - /short/public/access-esm/payu/input/historical/atmosphere
+
         - name: ocean
           model: mom
-          ncpus: 180
-          exe: /g/data/access/payu/access-esm-pmip/pmip-li/bin/mom5xx
+          ncpus: 84
+          exe: /short/public/access-esm/payu/bin/coe/fms_ACCESS-CM.x
           input:
-            - /g/data/access/payu/access-esm/input/pre-industrial/ocean/common
-            - /g/data/access/payu/access-esm/input/pre-industrial/ocean/pre-industrial
-    
+            - /short/public/access-esm/payu/input/common/ocean
+            - /short/public/access-esm/payu/input/historical/ocean
+
         - name: ice
           model: cice
           ncpus: 12
-          exe: /g/data/access/payu/access-esm-pmip/pmip-li/bin/cicexx
+          exe: /short/public/access-esm/payu/bin/csiro/cice4.1_access-mct-12p-20180108
           input:
-            - /g/data/access/payu/access-esm/input/pre-industrial/ice
-    
+            - /short/public/access-esm/payu/input/common/ice
+
         - name: coupler
           model: oasis
           ncpus: 0
           input:
-            - /g/data/access/payu/access-esm/input/pre-industrial/coupler
+            - /short/public/access-esm/payu/input/common/coupler
 
 This is probably the meatiest part of the configuration, so let's look at it in more detail.
 
@@ -265,7 +220,7 @@ The **name** is more than a useful reminder of what the model is.
 **payu** expects this submodel's configuration files in a subdirectory with that name.
 
     collate:
-       exe: /g/data/access/payu/access-esm/bin/mppnccombine
+       exe: /short/public/access-esm/payu/bin/mppnccombine
        restart: true
        mem: 4GB
 
@@ -276,14 +231,14 @@ the `restart: true` option means the restart files from the **previous** run are
 collated. This saves space and cuts down the number of files which makes more efficient
 use of storage and better for archiving in the future.
 
-    restart: /g/data/access/payu/access-esm/restart/pre-industrial
+    restart: /short/public/access-esm/payu/restart/historical
 
 This is the location of the warm restart files.
 **payu** will use the restart files in there for the initial run.
 
     calendar:
         start:
-            year: 101
+            year: 1850
             month: 1
             days: 1
 
@@ -366,3 +321,5 @@ To automatically submit several runs (and to take advantage of the `runspersub` 
 ## Finding the Output
 
 The output is automatically copied to the `archive/outputXXX` directories.
+
+**Warning**: This directory is a link to your laboratory (probably on scratch), so while it might *seem* that the output files are created twice, they are not. Deleting them from one location also removes them from the other. Do not do that if you want to keep the data.
